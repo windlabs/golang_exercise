@@ -8,3 +8,7 @@ func main() {
 	fmt.Printf("%x\n", i1)
 	fmt.Printf("%d\n", i1)
 }
+
+func jq() string{
+	return "jq"
+}
