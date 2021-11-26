@@ -41,7 +41,7 @@ func main() {
 	// 归并排序
 	//mergeSort(arr)
 	// 堆排序
-	//heapSort(arr)
+	heapSort(arr)
 
 	//fmt.Println(arr)
 	fmt.Println(time.Since(t))
@@ -208,16 +208,36 @@ func merge(arr []int, l,mid,r int){
 //堆排序
 func heapSort(arr []int){
 	n := len(arr)
-	for i:= (n-1)/2;i>=0;i--{
-		heapSink(arr, i, n)
-	}
+	makeMinHeap(arr)
 
 	for i:=n-1; i>0;i--{
 		arr[0], arr[i] = arr[i], arr[0]
-		heapSink(arr, 0, i)
+		heapFloat(arr, 0, i)
+	}
+}
+//func heapSort(arr []int){
+//	n := len(arr)
+//    makeMaxHeap(arr)
+//
+//	for i:=n-1; i>0;i--{
+//		arr[0], arr[i] = arr[i], arr[0]
+//		heapSink(arr, 0, i)
+//	}
+//}
+
+func makeMaxHeap(arr []int){
+	n := len(arr)
+	for i:= n/2-1;i>=0;i--{
+		heapSink(arr, i, n)
 	}
 }
 
+func makeMinHeap(arr []int){
+	n := len(arr)
+	for i:= n/2-1;i>=0;i--{
+		heapFloat(arr, i, n)
+	}
+}
 func heapSink(arr []int, i int, n int){
 	j := 2*i+1
 	for j < n {
@@ -236,7 +256,22 @@ func heapSink(arr []int, i int, n int){
 
 }
 
+func heapFloat(arr []int, i int, n int){
+	j := 2*i+1
+	for j < n {
+		if j+1 < n && arr[j+1] < arr[j] {
+			j = j+1
+		}
 
+		if arr[i] < arr[j]{
+			break
+		}
+
+		arr[i], arr[j] = arr[j], arr[i]
+		i, j = j , 2*j+1
+	}
+
+}
 
 
 
