@@ -22,4 +22,5 @@ func useBufio() {
 }
 func main() {
 	useBufio()
+	// useScan()
 }
