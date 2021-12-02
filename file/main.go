@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -15,9 +14,7 @@ func readFileByFile() {
 		fmt.Printf("open file failed, err: %v.", err)
 		return
 	}
-
 	defer fileObj.Close()
-
 	//读文件
 	var fileTmp [128]byte
 
@@ -152,7 +149,7 @@ func Cat(r *bufio.Reader) {
 }
 
 func main() {
-	// readFileByFile()
+	readFileByFile()
 	// readFileByBufio()
 	//readFileByIoutil()
 
@@ -160,16 +157,16 @@ func main() {
 	// writeFileByUtil()
 	// CopyFile("./readme.md", "./copy.md")
 
-	flag.Parse()
-	if flag.NArg() == 0 {
-		Cat(bufio.NewReader(os.Stdin))
-	}
-	for i := 0; i < flag.NArg(); i++ {
-		f, err := os.Open(flag.Arg(i))
-		if err != nil {
-			fmt.Fprintf(os.Stdout, "reading from %s failed, err:%v.", flag.Arg(i), err)
-			continue
-		}
-		Cat(bufio.NewReader(f))
-	}
+	// flag.Parse()
+	// if flag.NArg() == 0 {
+	// 	Cat(bufio.NewReader(os.Stdin))
+	// }
+	// for i := 0; i < flag.NArg(); i++ {
+	// 	f, err := os.Open(flag.Arg(i))
+	// 	if err != nil {
+	// 		fmt.Fprintf(os.Stdout, "reading from %s failed, err:%v.", flag.Arg(i), err)
+	// 		continue
+	// 	}
+	// 	Cat(bufio.NewReader(f))
+	// }
 }
