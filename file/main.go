@@ -148,8 +148,29 @@ func Cat(r *bufio.Reader) {
 	}
 }
 
+func fileSeek() {
+	fileObj, err := os.OpenFile("./readme.md", os.O_RDWR, 0644)
+	if err != nil {
+		fmt.Printf("Open file failed, err:%v.", err)
+		return
+	}
+	defer fileObj.Close()
+
+	fileObj.Seek(-20, 2)
+
+	var ret [1]byte
+	_, err = fileObj.Read(ret[:])
+	if err != nil {
+		fmt.Printf("Read file failed, err:%v", err)
+		return
+	}
+
+	fmt.Println(string(ret[:]))
+
+}
 func main() {
-	readFileByFile()
+	fileSeek()
+	// readFileByFile()
 	// readFileByBufio()
 	//readFileByIoutil()
 

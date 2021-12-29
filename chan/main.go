@@ -19,8 +19,39 @@ type result struct {
 	Index int
 }
 
+func createRand(jobChan chan<- int64) {
+	for {
+		jobChan <- rander.Int63()
+		time.Sleep(1 * time.Second)
+	}
+}
+
+func worker(jobChan <-chan int64, resultChan chan<- int64) {
+	for {
+		var ans int64
+		x := <-jobChan
+		for x > 0 {
+			ans += x % 10
+			x /= 10
+		}
+		resultChan <- ans
+	}
+}
+
 func main() {
-	wg2()
+
+	// wg.Add(24)
+	jobChan := make(chan int64, 100)
+	resultChan := make(chan int64, 100)
+	go createRand(jobChan)
+	for i := 0; i < 2; i++ {
+		go worker(jobChan, resultChan)
+	}
+	for {
+		fmt.Println(<-resultChan)
+	}
+	// wg.Wait()
+	// wg2()
 
 	//limitChan(10)
 	//for i :=0;i<5;i++{
@@ -34,17 +65,13 @@ func main() {
 	//<-c
 	//fmt.Println("receive ctrl+c")
 
-	//wg.Add(3)
-	//ch1 := make(chan int, 50)
-	//ch2 := make(chan int, 50)
-	//go f1(ch1)
-	//go f2(ch1,ch2)
-	//go f2(ch1,ch2)
-	//
-	//for y := range ch2 {
-	//	fmt.Printf("y: %+v\n", y )
-	//}
-	//wg.Wait()
+	// wg.Add(2)
+	// ch1 := make(chan int)
+	// // ch2 := make(chan int)
+	// go f1(ch1)
+	// //go f2(ch1,ch2)
+	// go f2(ch1)
+	// wg.Wait()
 
 	// jobChan := make(chan int64, 100)
 	// resultChan :=make(chan result, 100)
@@ -87,12 +114,12 @@ func main() {
 // 	close(ch1)
 // }
 
-// func f2(ch1 chan int, ch2 chan int) {
+// func f2(ch1 chan int) {
 // 	defer wg.Done()
-// 	for x := range ch1 {
-// 		ch2 <- x * x
+// 	for {
+// 		x := <-ch1
+// 		fmt.Println(x)
 // 	}
-// 	once.Do(func() { close(ch2) })
 // }
 
 // func limitChan(l int) {
@@ -139,33 +166,33 @@ func main() {
 //	close(ch1)
 //	close(ch2)
 //}
-func wg2() {
-	wg := sync.WaitGroup{}
-	wg.Add(2)
-	ch1 := make(chan bool)
-	ch2 := make(chan bool)
+// func wg2() {
+// 	wg := sync.WaitGroup{}
+// 	wg.Add(2)
+// 	ch1 := make(chan bool)
+// 	ch2 := make(chan bool)
 
-	go func() {
-		for i := 65; i < 91; i++ {
+// 	go func() {
+// 		for i := 65; i < 91; i++ {
 
-			fmt.Print(string(i))
-			ch2 <- true
-			<-ch1
+// 			fmt.Print(string(i))
+// 			ch2 <- true
+// 			<-ch1
 
-		}
-		wg.Done()
-	}()
+// 		}
+// 		wg.Done()
+// 	}()
 
-	go func() {
-		for j := 1; j < 27; j++ {
-			<-ch2
-			fmt.Print(j)
-			ch1 <- true
-		}
-		wg.Done()
-	}()
+// 	go func() {
+// 		for j := 1; j < 27; j++ {
+// 			<-ch2
+// 			fmt.Print(j)
+// 			ch1 <- true
+// 		}
+// 		wg.Done()
+// 	}()
 
-	wg.Wait()
-	close(ch1)
-	close(ch2)
-}
+// 	wg.Wait()
+// 	close(ch1)
+// 	close(ch2)
+// }
