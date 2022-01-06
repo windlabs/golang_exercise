@@ -41,15 +41,15 @@ func worker(jobChan <-chan int64, resultChan chan<- int64) {
 func main() {
 
 	// wg.Add(24)
-	jobChan := make(chan int64, 100)
-	resultChan := make(chan int64, 100)
-	go createRand(jobChan)
-	for i := 0; i < 2; i++ {
-		go worker(jobChan, resultChan)
-	}
-	for {
-		fmt.Println(<-resultChan)
-	}
+	//jobChan := make(chan int64, 100)
+	//resultChan := make(chan int64, 100)
+	//go createRand(jobChan)
+	//for i := 0; i < 2; i++ {
+	//	go worker(jobChan, resultChan)
+	//}
+	//for {
+	//	fmt.Println(<-resultChan)
+	//}
 	// wg.Wait()
 	// wg2()
 
@@ -84,6 +84,36 @@ func main() {
 	// for res := range resultChan {
 	// 	fmt.Printf("goruntine:%+v, num:%+v, sum:%+v\n",res.Index, res.Num, res.Sum)
 	// }
+
+	ch1 := make(chan bool)
+	ch2 := make(chan bool)
+	ch3 := make(chan bool)
+
+for{
+	go func() {
+		for{
+			<-ch1
+			fmt.Println("cat")
+			ch2<-true
+		}
+	}()
+	go func() {
+		for{
+			<-ch2
+			fmt.Println("dog")
+			ch3<-true
+		}
+	}()
+	go func() {
+		for{
+			<-ch3
+			fmt.Println("fish")
+			ch1<-true
+		}
+	}()
+	ch1<-true
+}
+
 }
 
 // func createJob(jobChan chan<- int64) {
