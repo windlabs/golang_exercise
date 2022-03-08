@@ -20,7 +20,7 @@ func useBufio() {
 	s, _ = reader.ReadString('\n')
 	fmt.Printf("你的输入是：%s", s)
 }
-func main() {
+func mainx() {
 	useBufio()
 	// useScan()
 }
