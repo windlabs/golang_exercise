@@ -7,10 +7,10 @@ import (
 )
 
 func useScan() {
-	var s string
+	//var s string
 	fmt.Print("请输入内容：")
-	fmt.Scanln(&s)
-	fmt.Printf("你输入的内容是：%s\n", s)
+	//fmt.Scanln(&s)
+	//fmt.Printf("你输入的内容是：%s\n", s)
 }
 
 func useBufio() {

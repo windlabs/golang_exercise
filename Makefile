@@ -11,5 +11,3 @@ dir:
 	echo $(path)
 	mkdir $(path)
 	cd $(path) && go mod init && touch main.go
-
-
