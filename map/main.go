@@ -34,7 +34,7 @@ func main() {
 		if !ok {
 			fmt.Println(ok)
 		}
-		fmt.Printf("%v\n", v)
+		fmt.Printf("%v\n\n", v)
 	}
 
 }

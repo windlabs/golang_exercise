@@ -1,4 +1,4 @@
-package main
+package get_input
 
 import (
 	"bufio"
@@ -7,10 +7,10 @@ import (
 )
 
 func useScan() {
-	var s string
+	//var s string
 	fmt.Print("请输入内容：")
-	fmt.Scanln(&s)
-	fmt.Printf("你输入的内容是：%s\n", s)
+	//fmt.Scanln(&s)
+	//fmt.Printf("你输入的内容是：%s\n", s)
 }
 
 func useBufio() {
@@ -20,7 +20,7 @@ func useBufio() {
 	s, _ = reader.ReadString('\n')
 	fmt.Printf("你的输入是：%s", s)
 }
-func main() {
+func mainx() {
 	useBufio()
 	// useScan()
 }
