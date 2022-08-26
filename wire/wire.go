@@ -11,8 +11,10 @@ var monsterPlayerSet = wire.NewSet(NewMonster, NewPlayer)
 var endingASet = wire.NewSet(monsterPlayerSet, wire.Struct(new(EndingA), "*"))
 var endingBSet = wire.NewSet(wire.Struct(new(EndingB), "*"), monsterPlayerSet)
 
-func InitMission(n1 PlayerParam, n2 MonsterParam) (Mission, error) {
-	wire.Build(monsterPlayerSet, NewMission)
+// func InitMission(n1 PlayerParam, n2 MonsterParam) (Mission, error) {
+func InitMission() (Mission, error) {
+	// wire.Build(monsterPlayerSet, NewMission)
+	wire.Build(wire.Struct(new(Mission)))
 	return Mission{}, nil
 }
 
@@ -25,3 +27,4 @@ func InitEndingB(n1 PlayerParam, n2 MonsterParam) (EndingB, error) {
 	wire.Build(endingBSet)
 	return EndingB{}, nil
 }
+

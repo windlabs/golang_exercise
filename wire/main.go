@@ -22,6 +22,7 @@ type Player struct {
 
 func NewPlayer(name PlayerParam) (Player, error) {
 	//return Player{Name: string(name)}
+	fmt.Println("===============================")
 	if time.Now().Unix()%2 == 0 {
 		return Player{},  errors.New("player dead")
 	}
@@ -62,14 +63,15 @@ func (e EndingB) appear() {
 }
 
 func main() {
+	mission, _ := InitMission()
 	//mission, _ := InitMission("Dj", "jake")
 	//
-	//mission.Start()
+	mission.Start()
 
 	//endingA ,_ := InitEndingA("A", "a")
 	//
 	//endingA.appear()
 
-	endingB, _ := InitEndingB("B", "b")
-	endingB.appear()
+	// endingB, _ := InitEndingB("B", "b")
+	// endingB.appear()
 }

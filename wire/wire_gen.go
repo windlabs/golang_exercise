@@ -12,13 +12,9 @@ import (
 
 // Injectors from wire.go:
 
-func InitMission(n1 PlayerParam, n2 MonsterParam) (Mission, error) {
-	player, err := NewPlayer(n1)
-	if err != nil {
-		return Mission{}, err
-	}
-	monster := NewMonster(n2)
-	mission := NewMission(player, monster)
+// func InitMission(n1 PlayerParam, n2 MonsterParam) (Mission, error) {
+func InitMission() (Mission, error) {
+	mission := Mission{}
 	return mission, nil
 }
 
