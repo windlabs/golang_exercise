@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// ini 文件解析器
+// MysqlConfig 文件解析器
 type MysqlConfig struct {
 	Address  string `ini:"address"`
 	Port     int    `ini:"port"`
@@ -17,7 +17,6 @@ type MysqlConfig struct {
 	Password string `ini:"password"`
 }
 
-//Config
 type Config struct {
 	MysqlConfig `ini:"mysql"`
 }

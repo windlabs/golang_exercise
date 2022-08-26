@@ -6,10 +6,11 @@ import (
 )
 
 func main() {
-	//f()
-	//fmt.Println("Returned normally form f.")
-
-	go func(){
+	func1()
+	//func2()
+}
+func func1() {
+	go func() {
 		for {
 			go func() {
 				defer func() {
@@ -22,13 +23,14 @@ func main() {
 			time.Sleep(1 * time.Second)
 		}
 	}()
-	select{}
+	select {}
 }
-func proc(){
+
+func proc() {
 	panic("ok")
 }
 
-func f() {
+func func2() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Recovered from f.", r)

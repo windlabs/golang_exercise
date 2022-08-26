@@ -24,12 +24,12 @@ func add() {
 func main() {
 	wg.Add(1)
 	lock.Lock()
-    go add()
+	go add()
 	//fmt.Println("main")
 	lock.Unlock()
 
 	// go add()
 	// go add()
 	wg.Wait()
-	fmt.Println(x)
+	//fmt.Println(x)
 }

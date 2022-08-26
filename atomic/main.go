@@ -12,7 +12,7 @@ var (
 )
 
 func add() {
-	// x++
+	//x++
 	atomic.AddInt32(&x, 1)
 	wg.Done()
 }

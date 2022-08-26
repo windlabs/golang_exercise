@@ -59,9 +59,10 @@ func main() {
 	//	rand2 := rander.Intn(10)
 	//	fmt.Println(rand1, rand2)
 	//}
+
 	//// os single
 	//c := make(chan os.Signal, 1)
-	//signal.Notify(c, os.Kill)
+	//signal.Notify(c, os.Kill, os.Interrupt)
 	//<-c
 	//fmt.Println("receive ctrl+c")
 
@@ -84,35 +85,6 @@ func main() {
 	// for res := range resultChan {
 	// 	fmt.Printf("goruntine:%+v, num:%+v, sum:%+v\n",res.Index, res.Num, res.Sum)
 	// }
-
-	ch1 := make(chan bool)
-	ch2 := make(chan bool)
-	ch3 := make(chan bool)
-
-for{
-	go func() {
-		for{
-			<-ch1
-			fmt.Println("cat")
-			ch2<-true
-		}
-	}()
-	go func() {
-		for{
-			<-ch2
-			fmt.Println("dog")
-			ch3<-true
-		}
-	}()
-	go func() {
-		for{
-			<-ch3
-			fmt.Println("fish")
-			ch1<-true
-		}
-	}()
-	ch1<-true
-}
 
 }
 
@@ -169,60 +141,91 @@ for{
 
 // }
 
-//func wg(){
-//	list1 := []string{"a","b","c","d"}
-//	list2 := []int{1,2,3,4}
-//	ch1 := make(chan bool)
-//	ch2 := make(chan bool)
-//	exit := make(chan bool)
-//
-//	go func() {
-//		for i:=0; i<len(list1);i++{
-//			fmt.Print(list1[i])
-//			ch2<-true
-//			<-ch1
-//		}
-//		exit <-true
-//	}()
-//
-//	go func() {
-//		for j:=0;j<len(list2);j++{
-//			<-ch2
-//			fmt.Print(list2[j])
-//			ch1<-true
-//		}
-//	}()
-//    <-exit
-//	close(ch1)
-//	close(ch2)
-//}
-// func wg2() {
-// 	wg := sync.WaitGroup{}
-// 	wg.Add(2)
-// 	ch1 := make(chan bool)
-// 	ch2 := make(chan bool)
+func wg1() {
+	list1 := []string{"a", "b", "c", "d"}
+	list2 := []int{1, 2, 3, 4}
+	ch1 := make(chan bool)
+	ch2 := make(chan bool)
+	exit := make(chan bool)
 
-// 	go func() {
-// 		for i := 65; i < 91; i++ {
+	go func() {
+		for i := 0; i < len(list1); i++ {
+			fmt.Print(list1[i])
+			ch2 <- true
+			<-ch1
+		}
+		exit <- true
+	}()
 
-// 			fmt.Print(string(i))
-// 			ch2 <- true
-// 			<-ch1
+	go func() {
+		for j := 0; j < len(list2); j++ {
+			<-ch2
+			fmt.Print(list2[j])
+			ch1 <- true
+		}
+	}()
+	<-exit
+	close(ch1)
+	close(ch2)
+}
+func wg2() {
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+	ch1 := make(chan bool)
+	ch2 := make(chan bool)
+	defer close(ch1)
+	defer close(ch2)
 
-// 		}
-// 		wg.Done()
-// 	}()
+	go func() {
+		for i := 65; i < 91; i++ {
 
-// 	go func() {
-// 		for j := 1; j < 27; j++ {
-// 			<-ch2
-// 			fmt.Print(j)
-// 			ch1 <- true
-// 		}
-// 		wg.Done()
-// 	}()
+			fmt.Print(string(i))
+			ch2 <- true
+			<-ch1
 
-// 	wg.Wait()
-// 	close(ch1)
-// 	close(ch2)
-// }
+		}
+		wg.Done()
+	}()
+
+	go func() {
+		for j := 1; j < 27; j++ {
+			<-ch2
+			fmt.Print(j)
+			ch1 <- true
+		}
+		wg.Done()
+	}()
+
+	wg.Wait()
+}
+
+func wg3() {
+	ch1 := make(chan bool)
+	ch2 := make(chan bool)
+	ch3 := make(chan bool)
+
+	for {
+		go func() {
+			for {
+				<-ch1
+				fmt.Println("cat")
+				ch2 <- true
+			}
+		}()
+		go func() {
+			for {
+				<-ch2
+				fmt.Println("dog")
+				ch3 <- true
+			}
+		}()
+		go func() {
+			for {
+				<-ch3
+				fmt.Println("fish")
+				ch1 <- true
+			}
+		}()
+		ch1 <- true
+	}
+}

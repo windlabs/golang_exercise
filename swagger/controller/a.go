@@ -1,6 +1,6 @@
 package controller
 
-// ShowAccount godoc
+// PayList godoc
 // @Summary      Show an account
 // @Description  get string by ID
 // @Tags         accounts
@@ -12,7 +12,6 @@ package controller
 // @Failure      404  {object}  httputil.HTTPError
 // @Failure      500  {object}  httputil.HTTPError
 // @Router       /accounts/{id} [get]
-
-func PayList(){
+func PayList() {
 
 }
