@@ -5,8 +5,28 @@ import (
 	"unsafe"
 )
 
+type (
+	FilterItem struct {
+		Key   string       `json:"key"`
+		Child []FilterItem `json:"child,omitempty" mapstructure:"child,omitempty"`
+	}
+)
+
 func main() {
-	s_append()
+	tmp := make([]int, 1010, 1024)
+	fmt.Printf("%v %d %d %p\n", tmp, len(tmp), cap(tmp), tmp)
+	tmp = append(tmp, 1, 2, 3, 4, 5, 6)
+	fmt.Printf("%v %d %d %p\n", tmp, len(tmp), cap(tmp), tmp)
+}
+func change(tmp []int) {
+	tmp = append(tmp, 6)
+	fmt.Printf("%v %d %d %p\n", tmp, len(tmp), cap(tmp), tmp)
+}
+
+func process(f []string) {
+	fmt.Println("--------------------")
+	fmt.Printf("%p\n", f)
+	fmt.Println("--------------------")
 }
 
 func s_append() {

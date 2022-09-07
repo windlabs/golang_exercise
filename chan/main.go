@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"sync"
 	"time"
+	"w.src.corp.qihoo.net/pubsec/go-library/sync/goroutine"
 )
 
 var (
@@ -39,7 +40,24 @@ func worker(jobChan <-chan int64, resultChan chan<- int64) {
 }
 
 func main() {
+	goroutinePools, err := goroutine.InitGoroutinePools(2)
+	if err != nil {
+		return
+	}
+	_ = goroutinePools.Submit(func() {
+		go func() {
+			time.Sleep(10*time.Second)
+			fmt.Println("--------------------")
+		}()
 
+	})
+	_ = goroutinePools.Submit(func() {
+		time.Sleep(5*time.Second)
+		fmt.Println("====================")
+	})
+	goroutinePools.WaitFinish()
+
+	fmt.Println("1111")
 	// wg.Add(24)
 	//jobChan := make(chan int64, 100)
 	//resultChan := make(chan int64, 100)
